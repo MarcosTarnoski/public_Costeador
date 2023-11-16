@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<main class="container py-2">
+        <div class="bg-light mx-auto w-100 p-5 rounded">
+            <div class="card-header py-3">
+                <div class="card card-body my-5">
+                    <h3 class="text-center">Cotización N°{{ costeo.id }}</h3>
+                    <div class="mb-3" style="height: 350px; overflow: auto;">
+                        <hr>
+                        <p class="h5 text-center">Costo unitario: {{ costeo.cotizacion.costo_unitario }} / Unidades: {{ costeo.cant_unidades }}</p>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Plazo de Pago</th>
+                                    <th scope="col">+{{ porcentaje1 }} / +{{porcentaje2}}</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Anticipado</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda porcentaje_decorado porcentaje_articulo costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">15 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda porcentaje_decorado porcentaje_articulo costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">30 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda porcentaje_decorado porcentaje_articulo costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">45 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda porcentaje_decorado porcentaje_articulo costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">60 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda porcentaje_decorado porcentaje_articulo costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+       </div>
+</main>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-4 text-center">Finanzas</h1>
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %} 
+                <div class="mb-3">
+                    <label class="form-label">IIBB - Buenos Aires</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.iibb_bsas }}</p>
+                    <input autofocus type="text" name="iibb_bsas" class="form-control" id="iibb_bsas" placeholder = "Ingresar valor en porcentaje. Ej: 1.5">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">IIBB - Mendoza</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.iibb_mza }}</p>
+                    <input autofocus type="text" name="iibb_mza" class="form-control" id="iibb_mza" placeholder = "Ingresar valor en porcentaje. Ej: 1.5">
+                </div>  
+                <div class="mb-3">
+                    <label class="form-label">Tasa de Seguridad de Higiene</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.hig_seg }}</p>
+                    <input autofocus type="text" name="hig_seg" class="form-control" id="hig_seg" placeholder = "Ingresar valor en porcentaje. Ej: 0.08">
+                </div>                                
+                <div class="mb-3">
+                    <label class="form-label">Costo de deuda</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.costo_deuda }}</p>
+                    <input type="text" name="costo_deuda" class="form-control" id="costo_deuda" placeholder = "Ingresar interes/mes. Ej: 8.75">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tasa anual</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.tasa_anual }}</p>
+                    <input type="text" name="tasa_anual" class="form-control" id="tasa_anual" placeholder = "Ingresar tasa anual. Ej: 105">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Porcentaje del CF a aplicar a costos de ventas productos decormec</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.perc_propio }}</p>
+                    <input type="text" name="perc_propio" class="form-control" id="perc_propio" placeholder = "Ingresar valor en porcentaje. Ej: 25">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Porcentaje del CF a aplicar a costos de ventas productos cliente</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.perc_cliente }}</p>
+                    <input type="text" name="perc_cliente" class="form-control" id="perc_cliente" placeholder = "Ingresar valor en porcentaje. Ej: 75">
+                </div>
+                <div class="mb-3">        
+                    <label class="form-label">Costo mensual de funcionamiento</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.costo_funcionamiento }}</p>
+                    <input type="text" name="costo_funcionamiento" class="form-control" id="costo_funcionamiento" placeholder = "Ingresar valor en $. Ej: 8146144">
+                </div>    
+                <hr>
+                <hr>
+                <div class="mb-3">
+                    <label class="form-label">Ventas mensuales estimadas - Articulos</label>
+                    <p class = 'small text-muted'>No incluir servicio de decoración a los artículos</p>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.ventas_estimadas_propio }}</p>
+                    <input type="text" name="ventas_estimadas_propio" class="form-control" id="ventas_estimadas_propio" placeholder = "Ingresar valor en $. Ej: 22350000">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ventas mensuales estimadas - Servicio de decoración</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.ventas_estimadas_cliente }}</p>
+                    <input type="text" name="ventas_estimadas_cliente" class="form-control" id="ventas_estimadas_cliente" placeholder = "Ingresar valor en $. Ej: 11500000">
+                </div>                
+                <!-- <div class="mb-3">
+                    <label class="form-label">Compras mensuales estimadas - Artículos propios para venta</label>
+                    <p class = 'small text-muted'>Valor actual: {{ finanzas.compras_estimadas_propio }}</p>
+                    <input type="text" name="compras_estimadas_propio" class="form-control" id="compras_estimadas_propio" placeholder = "Ingresar valor en $. Ej: 17200000">
+                </div>                                             -->
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

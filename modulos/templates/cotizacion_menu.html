@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-4 text-center">Nueva Cotizacion</h1>
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="tipo_cotizacion" id="tipo_cotizacion" class="form-select" required>
+                            <option value="Serigrafia">Serigrafía</option>
+                            <option value="Coating">Coating</option>
+                            <option value="Serigrafia + Coating">Serigrafía + Coating</option>
+                        </select>
+                        <label for="tipo_cotizacion">Seleccionar tipo de cotización</label>
+                    </div>
+                </div> 
+                <button type="submit" class="btn btn-primary">Iniciar cotización</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

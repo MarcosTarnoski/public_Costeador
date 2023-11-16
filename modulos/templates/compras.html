@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-4 text-center">Compras</h1>
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                <label class="form-label">Archivo con costo de vidrio, pinturas y otros</label>
+                <input type="file" name="file_compras" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </form>
+        </div>
+        <hr>
+        <div class="col-md-4 offset-md-4">
+            <div class="card card-body my-4">
+                <a class="btn btn-primary" href="{% url 'compras_detail' %}">Consultar datos compras</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

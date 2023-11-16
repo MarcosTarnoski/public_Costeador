@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
+<main class="container py-2">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="display-4 text-center">Cotizaciones históricas</h1>
+<form id="cotizacionForm" class="card card-body my-5" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+
+    <div class="d-grid gap-1 d-lg-flex justify-content-lg-center">
+<!--        <div class="col-md-3">-->
+            <div class="form-floating mb-3">
+                <input type="date" id="fecha_desde" name="fecha_desde" class="form-control">
+                <label for="fecha_desde">Fecha desde</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" id="fecha_hasta" name="fecha_hasta" class="form-control">
+                <label for="fecha_hasta">Fecha hasta</label>
+            </div>
+
+            <div class="form-floating mb-3">
+<!--                    <label for="articulos_coat" class="form-label">Artículo</label>-->
+                    <input class="form-control" list="listado_articulos_coat" id="articulo" name="articulo" placeholder="Hacer click o tipear para buscar">
+                    <datalist id="listado_articulos_coat">
+                        {% for articulo in articulos_list %}
+                        <option value="{{ articulo.articulo }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+<!--                <select name="articulo" id="articulo" class="form-select">-->
+<!--                    <option value="" hidden>Sin selección</option>-->
+<!--                    {% for articulo in articulos_list %}-->
+<!--                    <option value="{{ articulo.articulo }}" name="articulo_list_elm_1">{{ articulo.articulo }}</option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+                <label for="articulo" class="form-label">Artículo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select name="tipo_cotiz" id="tipo_cotiz" class="form-select">
+                    <option value="" hidden>Sin selección</option>
+                    <option value="Coating">Coating</option>
+                    <option value="Serigrafia">Serigrafía</option>
+                    <option value="Serigrafia + Coating">Serigrafía + Coating</option>
+                </select>
+                <label for="tipo_cotiz">Tipo de cotización</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select name="cliente" id="cliente" class="form-select">
+                    <option value="" hidden>Sin selección</option>
+                    {% for cliente in clientes_list %}
+                    <option value="{{ cliente.cliente }}" name="clientes_list">{{ cliente.cliente }}</option>
+                    {% endfor %}
+                </select>
+                <label for="cliente">Cliente</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select name="created_by" id="created_by" class="form-select">
+                <option value="" hidden>Sin selección</option>
+                    {% for user in users_list %}
+                    <option value="{{ user.username }}" name="creadores_list">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+                <label for="tipo_cotiz">Creado por</label>
+            </div>
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+
+            <div class="form-floating mb-3">
+                <select name="tipo_2" id="tipo_2" class="form-select">
+                    <option value="" hidden>Sin selección</option>
+                    {% for clasificacion in unique_tipo_2 %}
+                    <option value="{{ clasificacion }}" name="tipo2_list_elm_1">{{ clasificacion }}</option>
+                    {% endfor %}
+                </select>
+                <label for="tipo_2">Clasificación de artículo</label>
+            </div>
+<!--        </div>-->
+
+<!--    <div class="col-md-3">-->
+        <div class="form-floating mb-3">
+            <select name="_id" id="_id" class="form-select">
+                <option value="" hidden>Sin selección</option>
+                {% for id in id_list %}
+                <option value="{{ id.id }}" name="id_list_elm_1">{{ id.id }}</option>
+                {% endfor %}
+            </select>
+            <label for="_id">ID Cotizacion</label>
+        </div>
+<!--    </div>-->
+</div>
+
+
+    <button type="submit" class="btn btn-primary">Consultar</button>
+</form>
+
+        </div>
+        <div class="bg-light mx-auto w-100 p-5 rounded">
+            <div class="card-header py-3">
+                {% for costeo in costeo_list %}
+                <div class="card card-body my-5">
+                    <h3 class="text-center">Cotización N°{{ costeo.id }} - {{ costeo.tipo_cotiz }}</h3>
+                    <div class="mb-3" style="height: 500px; overflow: auto;">
+                        <hr>
+                        <p class="h5 text-center">Costo unitario: {{ costeo.cotizacion.costo_unitario }} / Unidades: {{ costeo.cant_unidades }}</p>
+                        <!-- Tabla resultado costeo solicitado -->
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Plazo de Pago</th>
+                                <th scope="col">0%</th>
+                                <th scope="col">+10%/+20%</th>
+                                <th scope="col">+25%/+20%</th>
+                                <th scope="col">+50%/+20%</th>
+                                <th scope="col">+75%/+20%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Anticipado</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda 1 1 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda 1.1 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda 1.25 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda 1.50 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 0 costo_deuda 1.75 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                </tr> 
+                                <tr>
+                                    <th scope="row">15 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda 1 1 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda 1.1 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda 1.25 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda 1.50 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 15 costo_deuda 1.75 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">30 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda 1 1 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda 1.1 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda 1.25 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda 1.50 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 30 costo_deuda 1.75 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">45 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda 1 1 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda 1.1 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda 1.25 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda 1.50 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 45 costo_deuda 1.75 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">60 días</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda 1 1 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda 1.1 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda 1.25 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda 1.50 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_decorado costeo.cotizacion.costo_unitario_fab_articulo 60 costo_deuda 1.75 1.2 costeo.com_otras costeo.com_ventas costeo.iibb_bsas costeo.iibb_mza costeo.hig_seg %}</td>
+                                  </tr>
+                                </tbody>
+                        </table>
+                        <div name='otros_margenes'>
+                            <label for="otros_margenes">Otros márgenes</label>
+                            <form method="POST" action="{% url 'calcular_ganancia' %}" target="_blank">
+                              {% csrf_token %}
+                              <input type="hidden" name="costeo_id" value="{{ costeo.id }}">
+                              <input type="text" name="porcentaje_ganancia" placeholder="Margen decorado">
+                              <input type="text" name="porcentaje_ganancia2" placeholder="Margen artículo">
+                              <button type="submit">Calcular</button>
+                            </form>
+                        </div>
+                        <hr>
+                        <p class="lead"><strong>Cotización solicitada</strong></p>
+                        <!-- Tabla costeo solicitado -->
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Campo</th>
+                                <th scope="col">Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for field in serig_fields %}
+                            <tr>
+                                {% if costeo|getattr_wrapper:field.name != None %}
+                                <!-- Campo -->
+                                <td>{{ field.name }}</td>
+                                <!-- Valor -->
+                                <td>
+                                    {% if field.name == "cotizacion" %}
+                                    id = {{ costeo.cotizacion.id }}
+                                    {% elif field.name == "cliente" %}
+                                    {{ costeo.cliente.cliente }}
+                                    {% elif "dibujo" in field.name or "ctg_cantidad" in field.name or "iibb" in field.name or "com_" in field.name or "hig" in field.name or field.name == "disenio_perc" %}
+                                    {{ costeo|getattr_wrapper:field.name }}
+                                    {% else %}
+                                        {% if costeo|getattr_wrapper:field.name is True %}
+                                            Si
+                                        {% elif costeo|getattr_wrapper:field.name is False %}
+                                            No aplica
+                                        {% elif costeo|getattr_wrapper:field.name == 1 %}
+                                            1
+                                        {% else %}
+                                        {{ costeo|getattr_wrapper:field.name|format_currency }}
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="lead"><strong>Detalle de cotización</strong></p>
+                        <!-- Tabla detalle de costeo -->
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Campo</th>
+                                <th scope="col">Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for field in cotiz_fields %}
+                            <tr>
+                                {% if costeo.cotizacion|getattr_wrapper:field.name != None %}
+                                <!-- Campo -->
+                                <td>{{ field.name }}</td>
+                                <!-- Valor -->
+                                <td>
+                                    {% if costeo.cotizacion|getattr_wrapper:field.name == True %}
+                                    Si
+                                    {% elif costeo.cotizacion|getattr_wrapper:field.name == False %}
+                                    No
+                                    {% elif costeo.cotizacion|getattr_wrapper:field.name == None %}
+                                    -
+                                    {% else %}
+                                    {{ costeo.cotizacion|getattr_wrapper:field.name |format_currency}}
+                                    {% endif %}
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

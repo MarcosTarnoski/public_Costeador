@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-2">
+    <h1 class="display-4 text-center">Costeo Coating</h1>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3 text-center">
+                <label class="form-label display-6">Cliente</label>
+                <input autofocus type="text" name="cliente_coat" class="form-control" id="cliente_coat" placeholder = "Ingresar nombre del cliente" required>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="cotizacion" id="cotizacion" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="coating">Solamente coating</option>
+                            <option value="coating_y_serig">Coating + Serigrafia UV o Epoxi</option>
+                        </select>
+                        <label for="cotizacion">Tipo de cotización</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="articulos_coat" class="form-label">Artículo</label>
+                    <input class="form-control" list="listado_articulos_coat" id="articulos_coat" placeholder="Hacer click o tipear para buscar">
+                    <datalist id="listado_articulos_coat">
+                        <option value="Tazon Amanecer (RIGOLLEAU  FN 67921 )"></option>
+                        <option value="Vaso Seelze (RIGOLLEAU BL 68845 )"></option>
+                        <option value="Vaso Tennesse (RIGOLLEAU FN 68426)"></option>
+                        <option value="Vaso Pinta (RIGOLLEAU BL 68846 )"></option>
+                        <option value="Vaso Cairo (RIGOLLEAU FN 68588 )"></option>
+                        <option value="vaso lexington 334cc (MERCATOR)N00022"></option>
+                        <option value="vaso ikea long dring (MERCATOR) (XT41069x24)"></option>
+                        <option value="botella bari 500 cm3 - san rafael"></option>
+                        <option value="Copa Dublin NADIR (BRASIM)"></option>
+                        <option value="Chopp Roma (DURAX)"></option>
+                        <option value="plato hondo gema (DURAX)"></option>
+                        <option value="plato postre gema (DURAX)"></option>
+                        <option value="taza armonia (DURAX)"></option>
+                        <option value="Vaso Pampa (DURAX)"></option>
+                        <option value="vaso cervecero conique 570cc (MERCATOR) (34002)"></option>
+                    </datalist>   
+                </div>                                 
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="tipo_articulo" id="tipo_articulo" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="botella_500_sb">Botella 500 (sin base)</option>
+                            <option value="botella_500_cb">Botella 500 (con base)</option>
+                            <option value="frascos_50">Frascos 50ml</option>
+                            <option value="frascos_80">Frascos 80ml</option>
+                            <option value="copas_chicas">Copas chicas</option>
+                            <option value="copas_med">Copas medianas</option>
+                        </select>
+                        <label for="tipo_articulo">Tipo de artículo</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="art_pc_coat" id="art_pc_coat" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="propio">Propio</option>
+                            <option value="cliente">Cliente</option>
+                        </select>
+                        <label for="art_pc_coat">Artículo propio o cliente</label>
+                    </div>
+                </div>               
+                <div class="mb-3">
+                    <label class="form-label">Cantidad a producir</label>
+                    <input type="text" name="cant_unidades_coat" class="form-control" id="cant_unidades_coat" placeholder = "Ingresar cantidad">
+                </div>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="cant_colores_coat" id="cant_colores_coat" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                        <label for="cant_colores_coat">Cantidad de colores</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="pasadas" id="pasadas" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        <label for="pasadas">Cantidad de pasadas</label>
+                    </div>
+                </div>   
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="codigo_coat" id="codigo_coat" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="Código">Código</option>
+                            <option value="Caja">Caja</option>
+                            <option value="Código + caja">Código + caja</option>                                                                            
+                        </select>
+                        <label for="codigo_coat">Código de barras</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="embalaje_coat" id="embalaje_coat" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="pluribol">Pluribol</option>
+                            <option value="papelKraft">Papel Kraft</option>
+                            <option value="bolsita">Bolsita</option>
+                            <option value="cajaind">Caja independiente</option>
+                            <option value="cajax6">Caja x6</option>                                                                                  
+                            <option value="cajax12">Caja x12</option>                                                                                  
+                        </select>
+                        <label for="embalaje_coat">Embalaje especial</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <select name="muestra_serig" id="muestra_serig" class="form-select">
+                            <option value="" selected disabled hidden>Sin selección</option>
+                            <option value="si">Si</option>
+                            <option value="no">No</option>
+                        </select>
+                        <label for="muestra_serig">Muestra</label>
+                    </div>
+                </div>          
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </form>    
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-7 offset-md-3">
+            <h1 class="display-4 text-center">Cotizaciones históricas</h1>
+            {% for costeo in costeo_list %}
+                <div class="card card-body my-5">
+                    <h3 class="text-center">Cotización N°{{ costeo.id }}</h3>
+                    <div class="mb-3" style="height: 500px; overflow: auto;">
+                            <hr>
+                            <p class="h5 text-center">Costo unitario: {{ costeo.cotizacion.costo_unitario }} / Unidades: {{ costeo.cant_unidades }}</p>
+                            <!-- Tabla resultado costeo solicitado -->
+                            <table class="table">
+                                <thead class="thead-dark">
+                                  <tr>
+                                    <th scope="col">Plazo de Pago</th>
+                                    <th scope="col">0%</th>
+                                    <th scope="col">+10%</th>
+                                    <th scope="col">+25%</th>
+                                    <th scope="col">+50%</th>
+                                    <th scope="col">+75%</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Anticipado</th>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_cliente costo_unitario_fab_propio 0 costo_deuda request_post 1 1 %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_cliente costo_unitario_fab_propio 0 costo_deuda request_post 1.1 1.2 %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_cliente costo_unitario_fab_propio 0 costo_deuda request_post 1.25 1.2 %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_cliente costo_unitario_fab_propio 0 costo_deuda request_post 1.50 1.2 %}</td>
+                                    <td>{% precio_venta costeo.cotizacion.costo_unitario_fab_cliente costo_unitario_fab_propio 0 costo_deuda request_post 1.75 1.2 %}</td>
+                                </tr> 
+                                <tr>
+                                    <th scope="row">15 días</th>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:15:costo_deuda:request_post:1:1|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:15:costo_deuda:request_post:1.1:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:15:costo_deuda:request_post:1.25:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:15:costo_deuda:request_post:1.50:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:15:costo_deuda:request_post:1.75:1.2|format_currency }}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">30 días</th>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:30:costo_deuda:request_post:1:1|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:30:costo_deuda:request_post:1.1:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:30:costo_deuda:request_post:1.25:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:30:costo_deuda:request_post:1.50:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:30:costo_deuda:request_post:1.75:1.2|format_currency }}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">45 días</th>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:45:costo_deuda:request_post:1:1|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:45:costo_deuda:request_post:1.1:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:45:costo_deuda:request_post:1.25:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:45:costo_deuda:request_post:1.50:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:45:costo_deuda:request_post:1.75:1.2|format_currency }}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">60 días</th>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:60:costo_deuda:request_post:1:1|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:60:costo_deuda:request_post:1.1:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:60:costo_deuda:request_post:1.25:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:60:costo_deuda:request_post:1.50:1.2|format_currency }}</td>
+                                    <td>{{ costeo.cotizacion.costo_unitario_fab_cliente|precio_venta:costo_unitario_fab_propio:60:costo_deuda:request_post:1.75:1.2|format_currency }}</td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                            <p class="lead"><strong>Cotización solicitada</strong></p>
+                            <!-- Tabla costeo solicitado -->
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Campo</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in serig_fields %}
+                                    <tr>
+                                            {% if costeo|getattr_wrapper:field.name != None %}
+                                                <!-- Campo -->
+                                                <td>{{ field.name }}</td>
+                                                <!-- Valor -->
+                                                <td>
+                                                {% if field.name == "cliente" %}
+                                                    {{ costeo.cliente.cliente }}
+                                                {% elif field.name == "cotizacion" %}
+                                                    id = {{ costeo.cotizacion.id }}
+                                                {% else %}
+                                                    {% if costeo|getattr_wrapper:field.name == True %}
+                                                        Si
+                                                    {% elif costeo|getattr_wrapper:field.name == False %}
+                                                        No aplica
+                                                    {% else %}
+                                                        {{ costeo|getattr_wrapper:field.name }}
+                                                    {% endif %}
+                                                {% endif %}
+                                                </td>
+                                            {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <p class="lead"><strong>Detalle de cotización</strong></p>
+                            <!-- Tabla detalle de costeo -->
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Campo</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in cotiz_fields %}
+                                    <tr>
+                                        {% if costeo.cotizacion|getattr_wrapper:field.name != None %}
+                                            <!-- Campo -->
+                                            <td>{{ field.name }}</td>
+                                            <!-- Valor -->
+                                            <td>
+                                                {% if costeo.cotizacion|getattr_wrapper:field.name == True %}
+                                                    Si
+                                                {% elif costeo.cotizacion|getattr_wrapper:field.name == False %}
+                                                    No
+                                                {% elif costeo.cotizacion|getattr_wrapper:field.name == None %}
+                                                    -
+                                                {% else %}
+                                                    {{ costeo.cotizacion|getattr_wrapper:field.name }}
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+            {% endfor %}   
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

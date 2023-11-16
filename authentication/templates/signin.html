@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- <form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button>
+        Iniciar Sesión
+    </button>
+</form> -->
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-1 text-center">Costeador</h1>
+            <form method="POST" class="card card-body my-5">
+                {% csrf_token %}
+                <h1 class="display-6 text-center">Inicio de sesión</h1>
+                <p class="form-label" style="color:red">{{error}}</p>    
+                <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Usuario</label>
+                <input autofocus type="text" name="username" class="form-control" id="id_username" aria-describedby="emailHelp" placeholder = "Ingrese usuario" required>
+                </div>
+                <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                <input type="password" name="password" class="form-control" id="id_password" placeholder = "Ingrese contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </form>    
+        </div>
+    </div>
+</main>
+
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<main class="container py-2 offset-md-4">
+    <div class="card card-body" style="width: 41rem;">
+        <div class="mb-3 text-center">
+            <div class="col-md-4 offset-md-4">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre_cliente" class="form-label">Nombre del cliente:</label>
+                        <input type="text" name="cliente" id="cliente" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Añadir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% block content %}
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h1 class="display-4 text-center">Compras - Detalles</h1>
+            <hr>
+                <form method="post" class="text-center" action="{% url 'descargar_excel' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Descargar archivo Excel</button>
+                </form>
+
+            <div class="card card-body my-5">
+                <h2 class="display-6 text-center">Artículo</h2>
+                <div class="mb-3" style="height: 500px; overflow: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            {% for field in articulos_fields %}
+                            <th scope="col">{{ field.name }}</th>
+                            {% endfor %}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for vidrio in vidrio_list %}
+                          <tr>
+                            {% for field in articulos_fields %}
+                                <td>{{ vidrio|getattr_wrapper:field.name }}</td>
+                            {% endfor %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card card-body my-5">
+                <h2 class="display-6 text-center">Pintura</h2>
+                <div class="mb-3" style="height: 500px; overflow: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            {% for field in articulos_fields %}
+                            <th scope="col">{{ field.name }}</th>
+                            {% endfor %}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for pintura in pintura_list %}
+                          <tr>
+                            {% for field in articulos_fields %}
+                                <td>{{ pintura|getattr_wrapper:field.name }}</td>
+                            {% endfor %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+            <div class="card card-body my-5">
+                <h2 class="display-6 text-center">Otros</h2>
+                <div class="mb-3" style="height: 500px; overflow: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            {% for field in articulos_fields %}
+                            <th scope="col">{{ field.name }}</th>
+                            {% endfor %}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for otros in otros_list %}
+                          <tr>
+                            {% for field in articulos_fields %}
+                                <td>{{ otros|getattr_wrapper:field.name }}</td>
+                            {% endfor %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

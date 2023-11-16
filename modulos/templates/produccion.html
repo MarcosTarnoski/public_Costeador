@@ -1,0 +1,274 @@
+<!--HTML para ingresar los datos de "ProduccionParametros" y consultarlos, similar a finanzas.html-->
+
+
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-2">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="display-4 text-center">Producción</h1>
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="card rounded">
+                    <div class="card-header">
+                        <h5 class="card-title">Generales</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Rotura en máquina</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.gral_rotura_maquina }}</p>
+                            <input autofocus type="text" name="gral_rotura_maquina" class="form-control"
+                                   id="gral_rotura_maquina" placeholder="Ingresar valor en porcentaje. Ej: 3">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rotura horno</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.gral_rotura_horno }}</p>
+                            <input type="text" name="gral_rotura_horno" class="form-control" id="gral_rotura_horno"
+                                   placeholder="Ingresar valor en porcentaje. Ej: 1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Malos por color - Lavadero</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.gral_malos_color_lavadero }}</p>
+                            <input type="text" name="gral_malos_color_lavadero" class="form-control"
+                                   id="gral_malos_color_lavadero" placeholder="Ingresar valor en porcentaje. Ej: 1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Producción mensual BsAs</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.gral_prod_mens_bsas }}</p>
+                            <input type="text" name="gral_prod_mens_bsas" class="form-control" id="gral_prod_mens_bsas"
+                                   placeholder="Ingresar unidades producidas por mes">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Producción mensual Mendoza</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.gral_prod_mens_mza }}</p>
+                            <input type="text" name="gral_prod_mens_mza" class="form-control" id="gral_prod_mens_mza"
+                                   placeholder="Ingresar unidades producidas por mes">
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-dark">
+                <div class="card rounded">
+                    <div class="card-header">
+                        <h5 class="card-title">Screen</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Articulos por screen</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.screen_cant_art }}</p>
+                            <input type="text" name="screen_cant_art" class="form-control" id="screen_cant_art"
+                                   placeholder="Ingresar cantidad de artículos. Ej: 10000">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tiempo de cambio de screen</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.screen_tpo_cambio }}</p>
+                            <input type="text" name="screen_tpo_cambio" class="form-control" id="screen_tpo_cambio"
+                                   placeholder="Ingresar tiempo en horas. Ej: 0.25">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Medida Screen</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.screen_medida }}</p>
+                            <input type="text" name="screen_medida" class="form-control" id="screen_medida"
+                                   placeholder="Ingresar medida de screen en cm2. Ej: 500">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fabricacion de Screens por Hora</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.screen_fab_hora }}</p>
+                            <input type="text" name="screen_fab_hora" class="form-control" id="screen_fab_hora"
+                                   placeholder="Ingresar fabricación de screens por hora. Ej: 1">
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-dark">
+                <div class="card rounded">
+                    <div class="card-header">
+                        <h5 class="card-title">Personal en máquina</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label class="form-label">Maquinistas</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.persmaq_maquinistas }}</p>
+                            <input type="text" name="persmaq_maquinistas" class="form-control" id="persmaq_maquinistas"
+                                   placeholder="Ingresar cantidad de maquinistas. Ej: 1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Horno</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.persmaq_horno }}</p>
+                            <input type="text" name="persmaq_horno" class="form-control" id="persmaq_horno"
+                                   placeholder="Ingresar cantidad de personal en horno. Ej: 3">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Autoelevador</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.persmaq_autoelevador }}</p>
+                            <input type="text" name="persmaq_autoelevador" class="form-control"
+                                   id="persmaq_autoelevador"
+                                   placeholder="Ingresar factor utilización entre 0 y 1. Ej: 0.5">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Personal Adicional Articulo Con Asa</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.persmaq_personal_asa }}</p>
+                            <input type="text" name="persmaq_personal_asa" class="form-control"
+                                   id="persmaq_personal_asa"
+                                   placeholder="Ingresar personal adic por ASA. Ej: 1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Velocidad de pegado de calco</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.persmaq_vel_calco }}</p>
+                            <input type="text" name="persmaq_vel_calco" class="form-control" id="persmaq_vel_calco"
+                                   placeholder="Ingresar unidades/hora. Ej: 125">
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-dark">
+                <div class="card rounded">
+                    <div class="card-header">
+                        <h5 class="card-title">Horno</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Velocidad de tejido 1</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.horno_vel_tejido_1 }}</p>
+                            <input type="text" name="horno_vel_tejido_1" class="form-control" id="horno_vel_tejido_1"
+                                   placeholder="Ingresar velocidad de tejido 1 en cm/min">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Velocidad de tejido 2</label>
+                            <p class='small text-muted'>Valor actual: {{ produccion.horno_vel_tejido_2 }}</p>
+                            <input type="text" name="horno_vel_tejido_2" class="form-control" id="horno_vel_tejido_2"
+                                   placeholder="Ingresar velocidad de tejido 2 en cm/min">
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-dark">
+                <div class="border-bottom">
+                    <div class="card rounded">
+                        <div class="card-header">
+                            <h5 class="card-title">Sopleteadora</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Cantidad de Maquinistas</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_maquinistas }}</p>
+                                <input type="text" name="sopl_maquinistas" class="form-control" id="sopl_maquinistas"
+                                       placeholder="Ingresar cantidad de maquinistas. Ej: 1">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Cantidad de Operarios</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_operarios }}</p>
+                                <input type="text" name="sopl_operarios" class="form-control" id="sopl_operarios"
+                                       placeholder="Ingresar cantidad de operarios. Ej: 4">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tiempo promedio de setup</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_tpo_setup }}</p>
+                                <input type="text" name="sopl_tpo_setup" class="form-control" id="sopl_tpo_setup"
+                                       placeholder="Tiempo setup promedio en horas. Ej: 4">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Porcentaje Pintura</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_perc_pint }}</p>
+                                <input type="text" name="sopl_perc_pint" class="form-control" id="sopl_perc_pint"
+                                       placeholder="Ingresar valor en porcentaje. Ej: 32">
+                            </div>
+                            <div class="mb-3">
+                                <label>Porcentaje Solvente</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_perc_solv }}</p>
+                                <input type="text" name="sopl_perc_solv" class="form-control" id="sopl_perc_solv"
+                                       placeholder="Ingresar valor en porcentaje. Ej: 65">
+                            </div>
+                            <div class="mb-3">
+                                <label>Porcentaje Aditivo</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_perc_adit }}</p>
+                                <input type="text" name="sopl_perc_adit" class="form-control" id="sopl_perc_adit"
+                                       placeholder="Ingresar valor en porcentaje. Ej: 3">
+                            </div>
+                            <div class="mb-3">
+                                <label>Rotura Sopleteado</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_rotura }}</p>
+                                <input type="text" name="sopl_rotura" class="form-control" id="sopl_rotura"
+                                       placeholder="Ingresar valor en porcentaje. Ej: 3">
+                            </div>
+                            <div class="mb-3">
+                                <label>Lavadero Sopleteado</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.sopl_lavadero }}</p>
+                                <input type="text" name="sopl_lavadero" class="form-control" id="sopl_lavadero"
+                                       placeholder="Ingresar valor en porcentaje. Ej: 1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="hr-dark">
+                    <div class="card rounded">
+                        <div class="card-header">
+                            <h5 class="card-title">Lavadero</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label>Limpios por hora serigrafia</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.lav_limp_ser }}</p>
+                                <input type="text" name="lav_limp_ser" class="form-control" id="lav_limp_ser"
+                                       placeholder="Ingresar cantidad por hora. Ejemplo: 300">
+                            </div>
+                            <div class="mb-3">
+                                <label>Limpios por hora sopleteado</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.lav_limp_sopl }}</p>
+                                <input type="text" name="lav_limp_sopl" class="form-control" id="lav_limp_sopl"
+                                       placeholder="Ingresar cantidad por hora. Ejemplo: 200">
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="hr-dark">
+                    <div class="card rounded">
+                        <div class="card-header">
+                            <h5 class="card-title">Insumos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label>Unidades por rollo de film</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.ins_unid_film }}</p>
+                                <input type="text" name="ins_unid_film" class="form-control" id="ins_unid_film"
+                                       placeholder="Ingresar unid/rollo de film. Ejemplo: 10000">
+                                <div class="mb-3">
+                                    <label>Unidades por rollo de cinta</label>
+                                    <p class='small text-muted'>Valor actual: {{ produccion.ins_unid_cinta }}</p>
+                                    <input type="text" name="ins_unid_cinta" class="form-control" id="ins_unid_cinta"
+                                           placeholder="Ingresar unid/rollo de cinta. Ejemplo: 1000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr class="hr-dark">
+                    <div class="card rounded">
+                        <div class="card-header">
+                            <h5 class="card-title">Diseño</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label>Cantidad de diseños mensuales para Bs As</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.dis_cant_bsas }}</p>
+                                <input type="text" name="dis_cant_bsas" class="form-control" id="dis_cant_bsas"
+                                       placeholder="Ingresar cantidad. Ejemplo: 100">
+                            </div>
+                            <div class="mb-3">
+                                <label>Cantidad de diseños mensuales para Mendoza</label>
+                                <p class='small text-muted'>Valor actual: {{ produccion.dis_cant_mza }}</p>
+                                <input type="text" name="dis_cant_mza" class="form-control" id="dis_cant_mza"
+                                       placeholder="Ingresar cantidad. Ejemplo: 80">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+        </div>
+
+    </div>
+
+    </form>
+    </div>
+</main>
+{% endblock %}

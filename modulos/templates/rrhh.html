@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-2">
+    <div class="row">
+        <h1 class="display-4 text-center">Recursos Humanos</h1>
+        <div class="col-md-4 offset-md-4">
+            <form method="POST" class="card card-body my-5" enctype="multipart/form-data">
+                {% csrf_token %} 
+                <div class="mb-3">
+                <label class="form-label">Archivo con valores hora del personal</label>
+                <input type="file" name="costo_hh" class="form-control" id="costo_hh" required>
+                </div>                
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </form>    
+        </div>
+        <hr>
+        <div class="col-md-4 offset-md-4">
+            <div class="card card-body my-4">
+                <a class="btn btn-primary" href="{% url 'rrhh_detail' %}">Consultar datos RRHH</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
